@@ -1,0 +1,45 @@
+Sub Adjust_Table()
+'
+' Adjust_Table Macro
+' Center Vertical, AutoFit Col Width
+'
+' Keyboard Shortcut: Ctrl+h
+'
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Columns.AutoFit
+End Sub
+
+
+Sub PasteValues()
+'
+' PasteValues Macro
+'
+' Keyboard Shortcut: Ctrl+v
+'
+    On Error Resume Next
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+End Sub
+
+Sub PasteTranspose()
+'
+' PasteTranspose Macro
+'
+' Keyboard Shortcut: Ctrl+Shift+V
+'
+    On Error Resume Next
+    Selection.PasteSpecial Operation:=xlNone, SkipBlanks:=False, Transpose:=True
+End Sub
+
+
+

@@ -1,0 +1,64 @@
+Sub Adjust_Table()
+'
+' Adjust_Table Macro
+' Center Vertical, AutoFit Col Width
+'
+' Keyboard Shortcut: Ctrl+h
+'
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Columns.AutoFit
+End Sub
+________________________________________________________________________
+Sub CreateJadTable()
+'
+' CreateJadTable Macro
+'
+' Keyboard Shortcut: Ctrl+t
+'
+Dim objTable As ListObject
+Selection.ClearFormats
+On Error Resume Next
+ActiveSheet.ListObjects(Selection.ListObject.Name).Unlist
+Set objTable = ActiveSheet.ListObjects.Add(xlSrcRange, Selection, , xlYes)
+Ans = MsgBox("Regular Table?", vbYesNo)
+    Select Case Ans
+         Case vbYes
+             objTable.TableStyle = "Jad Table"
+         Case vbNo
+             objTable.TableStyle = "Jad Transpose Table"
+     End Select
+objTable.ShowTableStyleFirstColumn = True
+Application.Run "Adjust_Table"
+End Sub
+________________________________________________________________________
+Sub UnlistTable()
+'
+' UnlistTable Macro
+'
+' Keyboard Shortcut: Ctrl+j
+'
+On Error Resume Next
+ActiveSheet.ListObjects(Selection.ListObject.Name).Unlist
+________________________________________________________________________
+End Sub
+
+Sub PasteTranspose()
+'
+' PasteTranspose Macro
+'
+' Keyboard Shortcut: Ctrl+Shift+V
+'
+    On Error Resume Next
+    Selection.PasteSpecial Operation:=xlNone, SkipBlanks:=False, Transpose:=True
+End Sub
+

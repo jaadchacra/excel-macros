@@ -1,0 +1,118 @@
+Excel Stuff
+
+Tasks
+	Create macros for all excel files
+
+
+
+
+
+
+
+
+
+
+We have shortcuts for
+	Ctrl + T (selecting Yes when prompted)
+		Regular Table that you can filter on columns
+		Styled with black green and white and montserrat font
+	Ctrl + T (selecting No when prompted)
+		Transpose table that you can filter on columns
+		Styled with black green and white and montserrat font
+	Ctrl + Shift + V
+		Pasting a table as transpose (note working)
+	Ctrl + H
+		Adjusting table (the width and height)
+	Ctrl + J 
+		Unlisting a table (removing the column grouping)
+		
+		
+		
+What we need
+	Pivot Table
+	+/- shortcuts to group and hide columns/rows
+	
+	
+________________________________________________________________________________________
+Sub UnlistTable()
+'
+' UnlistTable Macro
+'
+' Keyboard Shortcut: Ctrl+j
+'
+' Unlisting a table (removing the column grouping/filtering feature)
+'
+On Error Resume Next
+ActiveSheet.ListObjects(Selection.ListObject.Name).Unlist
+
+
+End Sub
+
+
+Sub Adjust_Table()
+'
+' Adjust_Table Macro
+' Center Vertical, AutoFit Col Width
+'
+' Keyboard Shortcut: Ctrl+h
+'
+' Adjusting table (the width and height)
+'
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Columns.AutoFit
+End Sub
+
+
+
+Sub CreateMyTable()
+'
+' CreateMyTable Macro
+'
+' Keyboard Shortcut: Ctrl+t
+' selecting Yes when prompted will create a regular table
+' Regular Table that you can filter on columns
+' Styled with black green and white and montserrat font
+' Selecting No when prompted
+' Creates a Transpose table that you can filter on columns
+' Styled with black green and white and montserrat font
+
+Dim objTable As ListObject
+Selection.ClearFormats
+On Error Resume Next
+ActiveSheet.ListObjects(Selection.ListObject.Name).Unlist
+Set objTable = ActiveSheet.ListObjects.Add(xlSrcRange, Selection, , xlYes)
+Ans = MsgBox("Regular Table?", vbYesNo)
+    Select Case Ans
+         Case vbYes
+             objTable.TableStyle = "Jad Table"
+         Case vbNo
+             objTable.TableStyle = "Jad Transpose Table"
+     End Select
+objTable.ShowTableStyleFirstColumn = True
+Application.Run "Adjust_Table"
+End Sub
+
+
+
+
+Sub PasteTranspose()
+'
+' PasteTranspose Macro
+'
+' Keyboard Shortcut: Ctrl+Shift+V
+'
+' Pasting a table as transpose
+'
+    On Error Resume Next
+    Selection.PasteSpecial Operation:=xlNone, SkipBlanks:=False, Transpose:=True
+End Sub
